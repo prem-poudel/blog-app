@@ -1,0 +1,89 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+*.py~ 
+local_settings.py
+
+# Media and static files (if generated locally)
+media/
+staticfiles/
+static/
+
+# Environment
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Virtual environment
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+
+# Pip
+pip-log.txt
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# PyCharm
+.idea/
+
+# Build and dist
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# Node (if using Tailwind or npm tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# JetBrains IDEs
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Celery beat schedule file
+celerybeat-schedule
