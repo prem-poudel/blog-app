@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class RegisterSerializer(serializers.Serializer):
     
@@ -33,3 +34,37 @@ class ListUsersSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     username = serializers.CharField()
 
+
+class LoginSerializer(serializers.Serializer):
+    username= serializers.CharField()
+    password= serializers.CharField()
+
+    def validate(self, data):
+        if not  User.objects.filter(username= data['username']).exists():
+            raise serializers.ValidationError("Account not found.")
+        
+        return data
+        
+    # if user is valid, get jwt token
+    def get_jwt_token(self, data):
+        user = authenticate(
+            username= data['username'],
+            password= data['password']
+        )
+
+        if not user:
+            return {
+                'data': {},
+                'message': 'Invalid credentials.',
+            }
+        
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            'data': {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            },
+            'message': 'Login successful.',
+            
+        }

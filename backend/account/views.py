@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
-from .serializers import RegisterSerializer, ListUsersSerializer
+from .serializers import RegisterSerializer, ListUsersSerializer, LoginSerializer
 
 
 class RegisterView(APIView):
@@ -38,13 +38,7 @@ class ListUsersView(APIView):
     def get(self, request):
         try:
             users = User.objects.all()
-            data = [
-                {
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'username': user.username,
-                } for user in users
-            ]
+            data = [ListUsersSerializer(user).data for user in users]
             
             return Response({
                 'data': data,
@@ -57,3 +51,31 @@ class ListUsersView(APIView):
                 'data': {},
                 'message': 'something went wrong. Please try again.',
             }, status= status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class LoginView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            serializer = LoginSerializer(data= data)
+
+            if not serializer.is_valid():
+                return Response({
+                    'data':{},
+                    'message': 'something went wrong. Please try again.',
+                }, status= status.HTTP_400_BAD_REQUEST)
+            
+            response = serializer.get_jwt_token(serializer.data)
+
+            return Response(response, status= status.HTTP_200_OK)            
+            
+            
+        except Exception as e:
+            return Response({
+                'data': {},
+                'message': 'something went wrong. Please try again.',
+            }, status= status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class LogoutView(APIView):
+    pass
