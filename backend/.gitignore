@@ -87,3 +87,7 @@ yarn-error.log*
 
 # Celery beat schedule file
 celerybeat-schedule
+
+
+# Image files
+blog_image
