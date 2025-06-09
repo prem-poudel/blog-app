@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .serializers import BlogSerializer
+from .serializers import BlogSerializer, PublicBlogSerializer
 from .models import Blog
 
 
@@ -15,7 +15,7 @@ class PublicBlogView(APIView):
     def get(self, request):
         try:
             blogs = Blog.objects.all()
-            serializer = BlogSerializer(blogs, many=True)
+            serializer = PublicBlogSerializer(blogs, many=True)
             if not serializer.data:
                 return Response({
                     'data': serializer.data,
